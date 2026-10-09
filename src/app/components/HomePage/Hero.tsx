@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -8,12 +7,12 @@ const Hero = () => {
   const [date] = useState(() =>
     new Date().toLocaleDateString("bn-BD", {
       dateStyle: "full",
-    })
+    }),
   );
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-8 px-4 py-8 md:flex-row md:gap-12">
-      <div className="flex flex-1 flex-col items-center justify-center text-center md:items-start md:text-left">
+    <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-6 px-4 py-8 sm:px-6 md:flex-row md:gap-4 lg:px-8">
+      <div className="flex min-w-0 flex-1 flex-col items-center justify-center text-center md:items-start md:text-left">
         <h4 className="rounded-2xl bg-green-200 mt-4 px-6 py-3 text-lg font-semibold text-green-900 shadow-sm transition-colors hover:bg-green-600">
           {date}
         </h4>
@@ -32,7 +31,7 @@ const Hero = () => {
         </button>
       </div>
 
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex w-full min-w-0 flex-1 items-center justify-center md:justify-end">
         <Image
           src="/assets/bazar-hero.png"
           alt="Bazar Hero"
