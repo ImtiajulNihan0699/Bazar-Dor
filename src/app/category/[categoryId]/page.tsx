@@ -30,7 +30,7 @@ const Category = async ({ params }: CategoryPageProps) => {
   const { categoryId } = await params;
 
   const response = await fetch(
-    `https://api.abcz.workers.dev/api/bazardor/products?category=${categoryId}`,
+    `https://api.api-store.workers.dev/api/bazardor/products?category=${categoryId}`,
   );
 
   if (!response.ok) {

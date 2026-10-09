@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { connection } from "next/server";
 import Navlinks from './Navlinks';
 import Marquee from './Marquee';
+import Link from 'next/link';
 
 const Header = async () => {
   await connection();
@@ -19,13 +20,15 @@ const Header = async () => {
         {/* Logo, Title and Date */}
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="bg-green-500 rounded-xl p-3 flex items-center justify-center shrink-0 shadow-sm">
-            <Image
+         <Link href="/">
+            <Image 
               src="/assets/logo-icon.png"
               alt="Logo"
               width={44}
               height={44}
               className="object-contain"
             />
+         </Link>
           </div>
 
           <div className="min-w-0">

@@ -64,25 +64,6 @@ export default function ProductDetailsCard({
       (total, market) => total + (market.min + market.max) / 2,
       0,
     ) / product.markets.length;
-  //     {
-  //       title: "সর্বনিম্ন দাম",
-  //       price: product.yesterday,
-  //       icon: "📅",
-  //       color: "red",
-  //     },
-  //     {
-  //       title: "গত সপ্তাহ",
-  //       price: product.lastWeek,
-  //       icon: "📅",
-  //       color: "blue",
-  //     },
-  //     {
-  //       title: "গত মাস",
-  //       price: product.lastMonth,
-  //       icon: "📅",
-  //       color: "purple",
-  //     },
-  //   ];
 
   const priceDifference = Math.abs(product.today - product.yesterday);
   const getUnitInBangla = (unit: string) => {
