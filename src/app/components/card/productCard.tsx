@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface Product {
@@ -45,8 +46,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     liter: "প্রতি লিটার",
     dozen: "প্রতি ডজন",
   };
-
+console.log(product)
   return (
+   <Link href={`/singleProduct/${product.id}`}>
     <article className="rounded-[22px] border border-[#dce5dc] bg-[#fbfcfb] p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-green-200 hover:shadow-md">
       <div className="flex items-center gap-4">
         <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-2xl bg-[#eff4ef] text-3xl">
@@ -84,6 +86,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </div>
     </article>
+   </Link>
   );
 };
 
