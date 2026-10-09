@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import BannerButton from "../buttons/bannerButton";
 
 const Hero = () => {
   const [date] = useState(() =>
@@ -26,9 +27,7 @@ const Hero = () => {
           বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
         </p>
 
-        <button className="mt-12 rounded-lg bg-green-900 px-6 py-3 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-green-600">
-          সব পণ্য দেখুন
-        </button>
+        <BannerButton/>
       </div>
 
       <div className="flex w-full min-w-0 flex-1 items-center justify-center md:justify-end">

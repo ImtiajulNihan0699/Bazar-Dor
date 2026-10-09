@@ -40,8 +40,10 @@ async function Allproducts() {
   .slice(0, 6);
 
   return (
+    
     <main className="mx-auto max-w-7xl space-y-12 px-4 py-8">
       {/* Products with increased prices */}
+      
       <section>
         <h2 className="mb-6 text-2xl font-bold text-red-600">
           ▲ আজ দাম বেড়েছে
@@ -68,7 +70,7 @@ async function Allproducts() {
       </section>
 
       {/* All products */}
-      <section>
+      <section id="library">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
             সব পণ্য
@@ -85,7 +87,9 @@ async function Allproducts() {
           ))}
         </div>
       </section>
+      
     </main>
+  
   );
 }
 
