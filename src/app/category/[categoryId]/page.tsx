@@ -1,5 +1,6 @@
 import React from "react";
 import ProductCard from "../../components/card/productCard";
+import CategoryProducts from "@/app/components/categoryProducts/CategoryProducts";
 
 interface Product {
   id: number;
@@ -50,23 +51,8 @@ const Category = async ({ params }: CategoryPageProps) => {
           {products.length.toLocaleString("bn-BD")} টি পণ্যের আজকের দাম ও
           পরিবর্তন
         </p>
+        <CategoryProducts products={products} />
       </div>
-      <div>
-        <p className="mb-2 px-3 text-xs text-gray-600 sm:px-4 sm:text-sm">
-          মোট {products.length.toLocaleString("bn-BD")} টি পণ্য দেখানো হচ্ছে
-        </p>
-      </div>
-      {products.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      ) : (
-        <p className="rounded-xl bg-gray-50 p-6 text-center text-gray-600">
-          এই ক্যাটাগরিতে কোনো পণ্য পাওয়া যায়নি।
-        </p>
-      )}
     </main>
   );
 };

@@ -81,7 +81,7 @@ console.log(product)
 
             {!isFlat
               ? `${Math.abs(product.change.pct).toLocaleString("bn-BD")}٪`
-              : "০٪"}
+              : "০.০٪"}
           </span>
         </div>
       </div>
