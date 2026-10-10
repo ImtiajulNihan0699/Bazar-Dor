@@ -43,7 +43,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const unitLabel: Record<string, string> = {
     kg: "প্রতি কেজি",
     piece: "প্রতি পিস",
-    liter: "প্রতি লিটার",
+    litre: "প্রতি লিটার",
     dozen: "প্রতি ডজন",
   };
 console.log(product)

@@ -5,6 +5,7 @@ import { connection } from "next/server";
 import Navlinks from './Navlinks';
 import Marquee from './Marquee';
 import Link from 'next/link';
+import UserInfoButton from '../buttons/userinfobutton';
 
 const Header = async () => {
   await connection();
@@ -43,15 +44,10 @@ const Header = async () => {
         </div>
 
         {/* Sign In and Sign Up */}
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <button className="flex-1 sm:flex-none text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-            সাইন ইন
-          </button>
-
-          <button className="flex-1 sm:flex-none bg-green-500 hover:bg-green-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg shadow-sm transition-colors">
-            সাইন আপ
-          </button>
-        </div>
+        
+          <UserInfoButton />
+         
+        
       </div>
 
       <Navlinks />
