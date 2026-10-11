@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 বাজার দর | BazarDor
 
-## Getting Started
+প্রতিদিনের নিত্যপণ্যের দাম এক জায়গায়।
 
-First, run the development server:
+## 📖 Short Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+BazarDor (বাজার দর) is a Bengali-language web app where users can check the daily prices of essential groceries like rice, lentils, oil, vegetables, fish, meat, eggs, milk and spices. Each product shows today's price and how much it has gone up or down compared to yesterday.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- HeroUI
+- Better Auth (Email/Password, Google, GitHub)
+- react-hot-toast
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Key Features
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Category-wise products:** Browse products by category with the active category highlighted in the navbar.
+2. **Daily price change:** Every product card shows today's price with a ▲ / ▼ percentage badge.
+3. **Authentication:** Sign up and sign in with email/password, Google or GitHub. Protected pages redirect to sign-in.
+4. **Profile management:** View your profile, update your name and sign out.
+5. **User-friendly experience:** Toast notifications, skeleton loaders, price sorting, and custom not-found and error pages.
