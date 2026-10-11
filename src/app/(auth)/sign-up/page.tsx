@@ -11,10 +11,14 @@ import {
 } from "@heroui/react";
 import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100";
 const labelClass = "mb-2 block text-sm font-semibold text-gray-700";
+const socialBtnClass =
+  "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -31,26 +35,39 @@ const SignUpPage = () => {
     >;
 
     if (data.password !== data.confirmPassword) {
-      alert("পাসওয়ার্ড দুটি মিলছে না");
+      toast.error("পাসওয়ার্ড দুটি মিলছে না");
       return;
     }
 
     setLoading(true);
-    const { data: resdata, error } = await signUp.email({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    });
-    setLoading(false);
+    const toastId = toast.loading("অ্যাকাউন্ট তৈরি হচ্ছে...");
 
-    if (error) {
-      alert(error.message || "অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।");
-      return;
-    }
+    try {
+      const { data: resdata, error } = await signUp.email({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
 
-    if (resdata) {
-      router.push("/");
-      router.refresh();
+      if (error) {
+        toast.error(
+          error.message || "অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।",
+          { id: toastId }
+        );
+        return;
+      }
+
+      if (resdata) {
+        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে", { id: toastId });
+        router.push("/");
+        router.refresh();
+      }
+    } catch {
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+        id: toastId,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,12 +77,12 @@ const SignUpPage = () => {
       callbackURL: "/",
     });
     if (error) {
-      alert(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
+      toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
     }
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-50 via-white to-emerald-100 px-4 py-10">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-gradient-to-br from-green-50 via-white to-emerald-100 px-4 py-10">
       <section className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-6 shadow-xl shadow-green-900/10 sm:p-9">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
@@ -154,24 +171,37 @@ const SignUpPage = () => {
         <div className="flex flex-col gap-3">
           <Button
             type="button"
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            className={socialBtnClass}
             onPress={() => handleSocialSignIn("google")}
           >
             Google দিয়ে সাইন ইন করুন
           </Button>
           <Button
             type="button"
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            className={socialBtnClass}
             onPress={() => handleSocialSignIn("github")}
           >
             GitHub দিয়ে সাইন ইন করুন
           </Button>
         </div>
 
-        <p className="mt-6 text-center text-xs leading-5 text-gray-500">
-          সাইন আপ করার মাধ্যমে আপনি আপনার অ্যাকাউন্ট তৈরি করতে সম্মত হচ্ছেন।
+        <p className="mt-6 text-center text-sm text-gray-600">
+          ইতিমধ্যে অ্যাকাউন্ট আছে?{" "}
+          <Link
+            href="/sign-in"
+            className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            সাইন ইন করুন
+          </Link>
         </p>
       </section>
+
+      <Link
+        href="/"
+        className="text-sm font-medium text-gray-600 transition-colors hover:text-green-800 hover:underline"
+      >
+        ← হোম পেজে ফিরে যান
+      </Link>
     </main>
   );
 };

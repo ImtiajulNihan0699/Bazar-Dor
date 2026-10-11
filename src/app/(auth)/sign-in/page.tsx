@@ -12,6 +12,7 @@ import {
 } from "@heroui/react";
 import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100";
@@ -33,20 +34,32 @@ const SignInPage = () => {
     >;
 
     setLoading(true);
-    const { data: resdata, error } = await signIn.email({
-      email: data.email,
-      password: data.password,
-    });
-    setLoading(false);
+    const toastId = toast.loading("সাইন ইন হচ্ছে...");
 
-    if (error) {
-      alert(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
-      return;
-    }
+    try {
+      const { data: resdata, error } = await signIn.email({
+        email: data.email,
+        password: data.password,
+      });
 
-    if (resdata) {
-      router.push("/");
-      router.refresh();
+      if (error) {
+        toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।", {
+          id: toastId,
+        });
+        return;
+      }
+
+      if (resdata) {
+        toast.success("সফলভাবে সাইন ইন হয়েছে", { id: toastId });
+        router.push("/");
+        router.refresh();
+      }
+    } catch {
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+        id: toastId,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +69,7 @@ const SignInPage = () => {
       callbackURL: "/",
     });
     if (error) {
-      alert(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
+      toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
     }
   };
 
