@@ -40,26 +40,23 @@ return result;
 }, [products, sort]);
 
 return (
-<> <div className="mb-4 flex justify-end"> <ProductSort value={sort} onChange={setSort} /> </div>
-
-  <p className="mb-2 px-3 text-xs text-gray-600 sm:px-4 sm:text-sm">
-    মোট {sortedProducts.length.toLocaleString("bn-BD")} টি পণ্য দেখানো হচ্ছে
-  </p>
-
-  {sortedProducts.length > 0 ? (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-      {sortedProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+  <>
+    <div className="mb-4 flex justify-end">
+      <ProductSort value={sort} onChange={setSort} />
     </div>
-  ) : (
-    <p className="rounded-xl bg-gray-50 p-6 text-center text-gray-600">
-      এই ক্যাটাগরিতে কোনো পণ্য পাওয়া যায়নি।
+
+    <p className="mb-2 px-3 text-xs text-gray-600 sm:px-4 sm:text-sm">
+      মোট {sortedProducts.length.toLocaleString("bn-BD")} টি পণ্য দেখানো হচ্ছে
     </p>
-  )}
-</>
 
-
+    {sortedProducts.length > 0 ? (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        {sortedProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    ) : null}
+  </>
 );
 };
 

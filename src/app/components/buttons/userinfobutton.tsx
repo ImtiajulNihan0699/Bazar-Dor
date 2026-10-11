@@ -41,17 +41,21 @@ const UserInfoButton = () => {
     <div className="flex w-full items-center gap-2 sm:w-auto">
       {user ? (
         <div className="flex items-center gap-3">
+          <span className="max-w-[140px] truncate font-semibold text-gray-800">
+            {user.name}
+          </span>
+
           <Link
             href="/profile"
-            className="font-semibold text-gray-800 transition-colors hover:text-green-700 hover:underline"
+            className="inline-flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-800 active:scale-95"
           >
-            {user.name}
+            আপডেট
           </Link>
 
           <button
             type="button"
             onClick={handleSignOut}
-            className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-600 active:scale-95"
+            className="cursor-pointer rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-600 active:scale-95"
           >
             সাইন আউট
           </button>

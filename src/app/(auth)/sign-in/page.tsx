@@ -1,7 +1,10 @@
+// app/(auth)/sign-in/page.tsx
 "use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import {
   Button,
   FieldError,
@@ -11,8 +14,6 @@ import {
   TextField,
 } from "@heroui/react";
 import { signIn } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100";
@@ -33,6 +34,16 @@ const SignInPage = () => {
       string
     >;
 
+    // ব্যাকআপ validation (toast সহ)
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email ?? "")) {
+      toast.error("সঠিক ইমেইল ঠিকানা লিখুন");
+      return;
+    }
+    if (!data.password) {
+      toast.error("পাসওয়ার্ড লিখুন");
+      return;
+    }
+
     setLoading(true);
     const toastId = toast.loading("সাইন ইন হচ্ছে...");
 
@@ -43,9 +54,10 @@ const SignInPage = () => {
       });
 
       if (error) {
-        toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।", {
-          id: toastId,
-        });
+        toast.error(
+          error.message || "ইমেইল বা পাসওয়ার্ড ভুল। আবার চেষ্টা করুন।",
+          { id: toastId }
+        );
         return;
       }
 
@@ -64,12 +76,25 @@ const SignInPage = () => {
   };
 
   const handleSocialSignIn = async (provider: "google" | "github") => {
-    const { error } = await signIn.social({
-      provider,
-      callbackURL: "/",
-    });
-    if (error) {
-      toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
+    const toastId = toast.loading(
+      provider === "google"
+        ? "Google-এ নেওয়া হচ্ছে..."
+        : "GitHub-এ নেওয়া হচ্ছে..."
+    );
+    try {
+      const { error } = await signIn.social({
+        provider,
+        callbackURL: "/",
+      });
+      if (error) {
+        toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।", {
+          id: toastId,
+        });
+      }
+    } catch {
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+        id: toastId,
+      });
     }
   };
 
@@ -85,7 +110,11 @@ const SignInPage = () => {
           </p>
         </div>
 
-        <Form className="flex w-full flex-col gap-5" onSubmit={onSubmit}>
+        <Form
+          className="flex w-full flex-col gap-5"
+          onSubmit={onSubmit}
+          onInvalid={() => toast.error("অনুগ্রহ করে ফর্মের ভুলগুলো ঠিক করুন")}
+        >
           <TextField
             isRequired
             name="email"

@@ -1,6 +1,10 @@
+// app/(auth)/sign-up/page.tsx
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import {
   Button,
   FieldError,
@@ -9,10 +13,7 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { signIn, signUp } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import toast from "react-hot-toast";
+import { signIn, signUp, signOut } from "@/lib/auth-client";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100";
@@ -34,6 +35,26 @@ const SignUpPage = () => {
       string
     >;
 
+    // ব্যাকআপ validation (toast সহ)
+    if (!data.name || data.name.trim().length < 3) {
+      toast.error("নাম কমপক্ষে ৩ অক্ষরের হতে হবে");
+      return;
+    }
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email ?? "")) {
+      toast.error("সঠিক ইমেইল ঠিকানা লিখুন");
+      return;
+    }
+    if (
+      !data.password ||
+      data.password.length < 8 ||
+      !/[A-Z]/.test(data.password) ||
+      !/[0-9]/.test(data.password)
+    ) {
+      toast.error(
+        "পাসওয়ার্ড কমপক্ষে ৮ অক্ষর, একটি বড় হাতের অক্ষর ও একটি সংখ্যা সহ হতে হবে"
+      );
+      return;
+    }
     if (data.password !== data.confirmPassword) {
       toast.error("পাসওয়ার্ড দুটি মিলছে না");
       return;
@@ -44,7 +65,7 @@ const SignUpPage = () => {
 
     try {
       const { data: resdata, error } = await signUp.email({
-        name: data.name,
+        name: data.name.trim(),
         email: data.email,
         password: data.password,
       });
@@ -58,9 +79,12 @@ const SignUpPage = () => {
       }
 
       if (resdata) {
-        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে", { id: toastId });
-        router.push("/");
-        router.refresh();
+        // অটো লগইন বাতিল করে login পেজে পাঠানো
+        await signOut();
+        toast.success("অ্যাকাউন্ট তৈরি হয়েছে। এখন সাইন ইন করুন।", {
+          id: toastId,
+        });
+        router.push("/sign-in");
       }
     } catch {
       toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
@@ -72,12 +96,25 @@ const SignUpPage = () => {
   };
 
   const handleSocialSignIn = async (provider: "google" | "github") => {
-    const { error } = await signIn.social({
-      provider,
-      callbackURL: "/",
-    });
-    if (error) {
-      toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
+    const toastId = toast.loading(
+      provider === "google"
+        ? "Google-এ নেওয়া হচ্ছে..."
+        : "GitHub-এ নেওয়া হচ্ছে..."
+    );
+    try {
+      const { error } = await signIn.social({
+        provider,
+        callbackURL: "/",
+      });
+      if (error) {
+        toast.error(error.message || "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।", {
+          id: toastId,
+        });
+      }
+    } catch {
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+        id: toastId,
+      });
     }
   };
 
@@ -93,7 +130,11 @@ const SignUpPage = () => {
           </p>
         </div>
 
-        <Form className="flex w-full flex-col gap-5" onSubmit={onSubmit}>
+        <Form
+          className="flex w-full flex-col gap-5"
+          onSubmit={onSubmit}
+          onInvalid={() => toast.error("অনুগ্রহ করে ফর্মের ভুলগুলো ঠিক করুন")}
+        >
           <TextField
             isRequired
             name="name"
@@ -174,14 +215,14 @@ const SignUpPage = () => {
             className={socialBtnClass}
             onPress={() => handleSocialSignIn("google")}
           >
-            Google দিয়ে সাইন ইন করুন
+            Google দিয়ে সাইন আপ করুন
           </Button>
           <Button
             type="button"
             className={socialBtnClass}
             onPress={() => handleSocialSignIn("github")}
           >
-            GitHub দিয়ে সাইন ইন করুন
+            GitHub দিয়ে সাইন আপ করুন
           </Button>
         </div>
 
