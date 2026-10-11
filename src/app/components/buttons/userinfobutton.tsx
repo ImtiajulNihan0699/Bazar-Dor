@@ -1,35 +1,50 @@
+
 "use client";
+
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
 const UserInfoButton = () => {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
-  console.log(user);
-
-  const handleSignOut=async() => {
+  const handleSignOut = async () => {
     await authClient.signOut();
+  };
+
+  if (isPending) {
+    return (
+      <div className="h-10 w-24 animate-pulse rounded-lg bg-gray-100" />
+    );
   }
 
   return (
     <div className="flex items-center gap-2 w-full sm:w-auto">
       {user ? (
-        <div>
-          <h2> {user?.name} </h2>
-          <button onClick={handleSignOut} className="p-2 border-2 bg-red-500 text-white">Signout</button>
+        <div className="flex items-center gap-3">
+          <h2 className="font-semibold text-gray-800">{user.name}</h2>
+
+          <button
+            onClick={handleSignOut}
+            className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-600 active:scale-95"
+          >
+            সাইন আউট
+          </button>
         </div>
       ) : (
         <div>
-          <Link href="/sign-in">
-            <button className="flex-1 sm:flex-none text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              সাইন ইন
-            </button>
+          <Link
+            href="/sign-in"
+            className="inline-block rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+          >
+            সাইন ইন
           </Link>
-          <Link href="/sign-up">
-            <button className="flex-1 sm:flex-none bg-green-500 hover:bg-green-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg shadow-sm transition-colors">
-              সাইন আপ
-            </button>
+
+          <Link
+            href="/sign-up"
+            className="ml-2 inline-block rounded-lg bg-green-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-600"
+          >
+            সাইন আপ
           </Link>
         </div>
       )}

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect } from "react";
@@ -30,18 +29,15 @@ export default function Error({
           দুঃখিত! পেজটি লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।
         </p>
 
-       
-
-          <button
-            type="button"
-            onClick={() => {
-              window.location.href = "/";
-            }}
-            className="cursor-pointer rounded-xl border border-emerald-700 px-5 py-3 font-semibold text-emerald-800 hover:bg-emerald-50"
-          >
-            হোমে ফিরে যান
-          </button>
-    
+        <button
+          type="button"
+          onClick={() => {
+            window.location.href = "/";
+          }}
+          className="cursor-pointer rounded-xl border border-emerald-700 px-5 py-3 font-semibold text-emerald-800 hover:bg-emerald-50"
+        >
+          হোমে ফিরে যান
+        </button>
       </div>
     </main>
   );
