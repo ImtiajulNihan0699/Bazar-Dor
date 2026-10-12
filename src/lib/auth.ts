@@ -10,7 +10,7 @@ export const auth = betterAuth({
 
 trustedOrigins: [
   "http://localhost:3000",
-  "https://bazar-dor-iota-pied.vercel.app"
+  "https://bazar-dor-iota-pied.vercel.app",
 ],
   verification: {
 		storeInDatabase: true, // Adds DB fallback if using secondaryStorage
